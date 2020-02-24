@@ -1,17 +1,68 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="ion-margin-top">
+    <ion-grid class="ion-no-padding" style="height: 52px;">
+      <ion-row class="ion-no-padding">
+        <ion-col size="10">
+          <ion-searchbar
+            type="decimal"
+            color="primary"
+            [debounce]="250"
+            mode="ios"
+          ></ion-searchbar>
+        </ion-col>
+        <ion-col size="2" class="ion-text-center">
+          <ion-avatar>
+            <img
+              style="width: 36px;height: 36px"
+              src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+            />
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content>
+  <ion-title class="content-title">Explore Recipes</ion-title>
+  <ion-slides mode="ios" pager="ios">
+    <ion-slide style="padding-bottom:15px;" *ngFor="let featured of featureds">
+      <app-featured-card
+        style="width: 100%;"
+        [featured]="featured"
+        [withDetail]="true"
+        [height]="200"
+      ></app-featured-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-title class="content-title">
+    Soups
+    <span class="ion-float-right view-all">View All > </span>
+  </ion-title>
+  <ion-slides mode="ios" scrollbar="ios" [options]="slideOpts">
+    <ion-slide *ngFor="let featured of featureds">
+      <app-featured-card
+        style="width: 70%;"
+        [featured]="featured"
+        [withDetail]="false"
+        [height]="140"
+      ></app-featured-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-title class="content-title">
+    Salads
+    <span class="ion-float-right view-all ">
+      View All >
+    </span>
+  </ion-title>
+  <ion-slides mode="ios" scrollbar="ios" [options]="slideOpts">
+    <ion-slide *ngFor="let featured of featureds">
+      <app-featured-card
+        style="width: 70%;"
+        [featured]="featured"
+        [withDetail]="false"
+        [height]="140"
+      ></app-featured-card>
+    </ion-slide>
+  </ion-slides>
 </ion-content>

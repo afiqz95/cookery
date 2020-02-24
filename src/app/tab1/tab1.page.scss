@@ -1,3 +1,9 @@
-ion-content ion-toolbar {
-  --background: translucent;
+.content-title {
+  font-family: "Lato Regular";
+}
+
+.view-all {
+  margin-top: 7px;
+  font-size: 15px;
+  color: var(--ion-color-secondary);
 }

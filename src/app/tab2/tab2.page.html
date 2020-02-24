@@ -1,17 +1,31 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>
-      Tab 2
+      My Recipes
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list>
+    <ion-item detail *ngFor="let recipe of recipes">
+      <ion-avatar slot="start">
+        <img
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190326-lamb-stew-325-1553801000.jpg"
+        />
+      </ion-avatar>
+      <ion-text color="dark">
+        <p class="recipe-title">{{recipe.name}}</p>
+        <p class="recipe-category" style="margin-bottom: 5px;">{{recipe.category}}</p>
+      </ion-text>
+      <ion-note slot="end">
+        <p class="star-rating"><ion-icon name="star" color="primary"></ion-icon>4.2</p>
+      </ion-note>
+    </ion-item>
+  </ion-list>
 </ion-content>

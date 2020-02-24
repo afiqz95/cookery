@@ -1,0 +1,285 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs"></ion-back-button>
+    </ion-buttons>
+    <ion-title>New Recipe</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #content>
+  <ion-slides mode="ios" pager="ios">
+    <ion-slide style="padding-bottom: 40px;">
+      <div class="remove-btn">
+        <ion-button color="dark" size="small">
+          <ion-icon slot="start" name="close"></ion-icon>
+          Remove
+        </ion-button>
+      </div>
+      <div
+        class="image-upload"
+        [ngStyle]="{'background-image': 'url(' + 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190326-lamb-stew-325-1553801000.jpg' + ')'}"
+        style="object-fit: cover;"
+      ></div>
+      <ion-item class="item-cover checkbox-primary" lines="none">
+        <ion-checkbox color="secondary" slot="end"></ion-checkbox>
+        <ion-label color="light">Cover Picture</ion-label>
+      </ion-item>
+    </ion-slide>
+    <ion-slide>
+      <div class="take-picture ion-activatable">
+        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        <ion-icon style="font-size: 64px;" name="camera-outline"></ion-icon>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <ion-segment [(ngModel)]="segment" color="secondary">
+    <ion-segment-button value="details">
+      <ion-label>Details</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="ingredient">
+      <ion-label>Ingredients</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="methods">
+      <ion-label>Methods</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ng-container *ngIf="segment ==='details'; else notDetailsTemp">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Recipe Name</ion-label>
+        <ion-input placeholder="Eg : Chicken Hainanese Rice"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Category</ion-label>
+        <ion-select [(ngModel)]="selectedCategory" placeholder="Choose category for your recipe">
+          <ion-select-option *ngFor="let category of categories"
+            >{{category.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Difficulty</ion-label>
+        <ion-select placeholder="How difficult is it to make this">
+          <ion-select-option value="easy">Easy</ion-select-option>
+          <ion-select-option value="medium">Medium</ion-select-option>
+          <ion-select-option value="hard">Hard</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Description</ion-label>
+        <ion-textarea
+          rows="6"
+          placeholder="Explain your recipe as tastiest as possible!"
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-title style="padding-left: 5px;">Cooking Time</ion-title>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked">Time</ion-label>
+            <ion-input placeholder="Enter amount"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked">Unit</ion-label>
+            <ion-select value="minutes" placeholder="Select unit">
+              <ion-select-option value="minutes">Minutes</ion-select-option>
+              <ion-select-option value="hours">Hours</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+  <ng-template #notDetailsTemp>
+    <ng-container *ngIf="segment === 'ingredient'; else methodsTemp">
+      <ion-list>
+        <ng-container *ngIf="ingredients.length > 0; else noIngTemp">
+          <ion-item *ngFor="let ingredient of ingredients; let i = index">
+            <ion-text color="dark">
+              <p class="marginal ingredient-name">{{ingredient.name}}</p>
+              <p class="marginal ingredient-quantity" style="margin-bottom: 5px;">
+                {{ingredient.quantity}}
+              </p>
+            </ion-text>
+            <ion-button (click)="removeIngredient(i)" slot="end" fill="clear" color="danger">
+              <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ng-container>
+        <ng-template #noIngTemp>
+          <ion-item lines="none">
+            <ion-label class="ion-text-center">No ingredients yet. Add one! </ion-label>
+          </ion-item>
+        </ng-template>
+
+        <ion-button
+          style="margin-top: 15px;"
+          expand="block"
+          mode="ios"
+          size="small"
+          fill="solid"
+          (click)="openNewIngredient()"
+          shape="round"
+          *ngIf="!adding"
+        >
+          <ion-icon slot="start" name="add"></ion-icon> Add New Ingredient
+        </ion-button>
+      </ion-list>
+
+      <div class="adding-box" *ngIf="adding">
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-align-items-center">
+            <ion-col size="10">
+              <ion-title style="padding-left: 0px;">
+                New Ingredient
+              </ion-title>
+            </ion-col>
+            <ion-col size="2">
+              <ion-button fill="clear" size="small" (click)="adding = false">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Name</ion-label>
+            <ion-input placeholder="Eg : Chicken" [(ngModel)]="newIngredient.name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Quantity</ion-label>
+            <ion-input placeholder="Eg : 500g" [(ngModel)]="newIngredient.quantity"></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-button
+          expand="block"
+          fill="solid"
+          shape="round"
+          mode="ios"
+          size="small"
+          (click)="addIngredient()"
+        >
+          <ion-icon slot="start" name="add"></ion-icon> Add Ingredient
+        </ion-button>
+      </div>
+    </ng-container>
+    <ng-template #methodsTemp>
+      <ion-list>
+        <ng-container *ngFor="let method of methods;let i = index">
+          <ion-grid class="ion-no-padding">
+            <ion-row class="ion-align-items-center">
+              <ion-col size="4"> <ion-title>{{i + 1}}.</ion-title></ion-col>
+              <ion-col size="8" class="ion-text-right">
+                <ion-button size="small" (click)="decreaseIndex(i)" fill="clear">
+                  <ion-icon
+                    size="small"
+                    color="dark"
+                    slot="icon-only"
+                    mode="ios"
+                    name="chevron-up"
+                    *ngIf="method != methods[0]"
+                  ></ion-icon>
+                </ion-button>
+                <ion-button size="small" (click)="increaseIndex(i)" fill="clear">
+                  <ion-icon
+                    size="small"
+                    color="dark"
+                    slot="icon-only"
+                    mode="ios"
+                    name="chevron-down"
+                    *ngIf="method != methods[methods.length-1]"
+                  ></ion-icon>
+                </ion-button>
+                <ion-button (click)="editMethod(i)" fill="clear">
+                  <ion-icon slot="icon-only" mode="ios" color="tertiary" name="pencil"></ion-icon>
+                </ion-button>
+                <ion-button (click)="removeMethod(i)" fill="clear">
+                  <ion-icon slot="icon-only" mode="ios" color="secondary" name="close"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ng-container *ngIf="!method.isEditing; else editingMethodTemp">
+            <ion-item style="margin-bottom: 15px;">
+              <ion-label class="method-description">{{method.description}}</ion-label>
+            </ion-item>
+          </ng-container>
+          <ng-template #editingMethodTemp>
+            <ion-item style="margin-bottom: 15px;">
+              <ion-label position="stacked">Step Description</ion-label>
+              <ion-textarea
+                rows="7"
+                placeholder="Eg : Put chicken in oven for 30 minutes"
+                [(ngModel)]="method.description"
+              ></ion-textarea>
+            </ion-item>
+          </ng-template>
+        </ng-container>
+      </ion-list>
+      <ion-button
+        style="margin-bottom: 10px;"
+        expand="block"
+        fill="solid"
+        shape="round"
+        mode="ios"
+        *ngIf="!addingMethod"
+        (click)="addingStep()"
+      >
+        <ion-icon slot="start" name="add"></ion-icon> Add Step
+      </ion-button>
+      <div class="adding-box" *ngIf="addingMethod">
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-align-items-center">
+            <ion-col size="10">
+              <ion-title style="padding-left: 0px;">
+                New Step
+              </ion-title>
+            </ion-col>
+            <ion-col size="2">
+              <ion-button fill="clear" size="small" (click)="addingMethod = false">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Step Description</ion-label>
+            <ion-textarea
+              rows="7"
+              placeholder="Eg : Put chicken in Over for 30 minutes"
+              [(ngModel)]="newStep"
+            ></ion-textarea>
+          </ion-item>
+        </ion-list>
+        <ion-button
+          expand="block"
+          fill="solid"
+          shape="round"
+          mode="ios"
+          size="small"
+          (click)="addStep()"
+        >
+          <ion-icon slot="start" name="add"></ion-icon> Add Step
+        </ion-button>
+      </div>
+    </ng-template>
+  </ng-template>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="secondary">
+    <ion-button (click)="onClick()" expand="block" fill="clear" shape="round" color="light">
+      Add Recipe!
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -28,4 +28,8 @@ export class Tab1Page {
     freeMode: true
   };
   constructor() {}
+
+  doRefresh(item) {
+    item.detail.complete();
+  }
 }

@@ -1,3 +1,19 @@
-ion-content ion-toolbar {
-  --background: translucent;
+.recipe-title {
+  font-family: "Lato Regular";
+  font-size: 22px;
+}
+
+.recipe-category {
+  font-family: "Lato Light";
+  font-size: 18px;
+}
+
+p {
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
+
+.star-rating{
+  font-family: 'Lato Regular';
+  font-size: 16px;
 }

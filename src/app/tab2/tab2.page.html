@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button>
+    <ion-buttons collapse="true" slot="end">
+      <ion-button color="primary">
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,6 +12,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button>
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title size="large">My Recipes</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <ion-list>
     <ion-item detail *ngFor="let recipe of recipes">
       <ion-avatar slot="start">
@@ -21,10 +31,14 @@
       </ion-avatar>
       <ion-text color="dark">
         <p class="recipe-title">{{recipe.name}}</p>
-        <p class="recipe-category" style="margin-bottom: 5px;">{{recipe.category}}</p>
+        <p class="recipe-category" style="margin-bottom: 5px;">
+          {{recipe.category}}
+        </p>
       </ion-text>
       <ion-note slot="end">
-        <p class="star-rating"><ion-icon name="star" color="primary"></ion-icon>4.2</p>
+        <p class="star-rating">
+          <ion-icon name="star" color="primary"></ion-icon>4.2
+        </p>
       </ion-note>
     </ion-item>
   </ion-list>

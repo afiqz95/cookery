@@ -8,6 +8,14 @@ const routes: Routes = [
   },  {
     path: 'new-recipe-form',
     loadChildren: () => import('./new-recipe-form/new-recipe-form.module').then( m => m.NewRecipeFormPageModule)
+  },
+  {
+    path: 'fav-list',
+    loadChildren: () => import('./fav-list/fav-list.module').then( m => m.FavListPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   }
 
 ];

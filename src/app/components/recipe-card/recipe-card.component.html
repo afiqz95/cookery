@@ -1,14 +1,29 @@
-<ion-card style="width:80%" mode="ios" class="ion-activatable">
+<ion-card [ngStyle]="{ width: width }" mode="ios" class="ion-activatable" [ngClass]="{'ion-no-margin': noMargin}">
   <ion-ripple-effect type="bounded"></ion-ripple-effect>
+  <ion-button size="small" class="fav-btn" color="secondary" fill="solid">
+    <ion-icon
+      size="small"
+      slot="icon-only"
+      color="light"
+      name="star"
+    ></ion-icon>
+  </ion-button>
   <img [src]="featured.image" />
   <ion-card-header class="ion-text-left" style="padding: 5px 10px 2px 10px;">
     <ion-card-title class="star-rating">
-      <ion-icon name="star-outline" color="primary" style="margin-right: 5px;"></ion-icon>4.0
+      <ion-icon
+        name="star-outline"
+        color="primary"
+        style="margin-right: 5px;"
+      ></ion-icon
+      >4.0
     </ion-card-title>
     <ion-card-title class="recipe-name">{{ featured.name }}</ion-card-title>
     <ion-card-subtitle class="user-name">
       <ion-avatar class="avatar-container ">
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
+        <img
+          src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+        />
       </ion-avatar>
       {{ featured.creator }}
     </ion-card-subtitle>

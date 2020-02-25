@@ -7,6 +7,7 @@ import { Tab1Page } from "./tab1.page";
 import { ExploreContainerComponentModule } from "../explore-container/explore-container.module";
 import { FeaturedCardComponent } from "../components/featured-card/featured-card.component";
 import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
+import { RecipeCardComponentModule } from "../components/recipe-card/recipe-card.component.module";
 
 @NgModule({
   imports: [
@@ -14,8 +15,9 @@ import { RecipeCardComponent } from "../components/recipe-card/recipe-card.compo
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    RouterModule.forChild([{ path: "", component: Tab1Page }])
+    RouterModule.forChild([{ path: "", component: Tab1Page }]),
+    RecipeCardComponentModule
   ],
-  declarations: [Tab1Page, FeaturedCardComponent, RecipeCardComponent]
+  declarations: [Tab1Page, FeaturedCardComponent]
 })
 export class Tab1PageModule {}

@@ -46,7 +46,13 @@
 .star-rating {
   display: flex;
   font-size: 14px;
-  font-family: 'Lato Light';
+  font-family: "Lato Light";
   margin-bottom: 3px;
   align-items: center;
+}
+
+.fav-btn {
+  position: absolute;
+  top: 0;
+  right: 10px;
 }

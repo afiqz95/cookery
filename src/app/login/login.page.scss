@@ -1,0 +1,28 @@
+.register-card {
+  margin: 10px 27px 10px 27px;
+  border-radius: 20px;
+}
+.text-box {
+  --border-width: 1px;
+  --border-radius: 20px;
+}
+
+.login-card {
+  border-radius: 20px;
+}
+
+.card-title {
+  font-family: "Lato Light";
+}
+
+.register-container {
+  position: absolute;
+  top: 25vh;
+  width: 100%;
+}
+
+.login-container {
+  position: absolute;
+  top: 21vh;
+  width: 100%;
+}

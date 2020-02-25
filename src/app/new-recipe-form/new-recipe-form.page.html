@@ -33,7 +33,7 @@
       </div>
     </ion-slide>
   </ion-slides>
-  <ion-segment [(ngModel)]="segment" color="secondary">
+  <ion-segment [(ngModel)]="segment" color="secondary" mode="md">
     <ion-segment-button value="details">
       <ion-label>Details</ion-label>
     </ion-segment-button>
@@ -77,7 +77,7 @@
     <ion-grid>
       <ion-row>
         <ion-col size="12">
-          <ion-title style="padding-left: 5px;">Cooking Time</ion-title>
+          <ion-title mode="md" style="padding-left: 5px;">Cooking Time</ion-title>
         </ion-col>
         <ion-col size="6">
           <ion-item>
@@ -137,7 +137,7 @@
         <ion-grid class="ion-no-padding">
           <ion-row class="ion-align-items-center">
             <ion-col size="10">
-              <ion-title style="padding-left: 0px;">
+              <ion-title mode="md" style="padding-left: 0px;">
                 New Ingredient
               </ion-title>
             </ion-col>
@@ -176,7 +176,7 @@
         <ng-container *ngFor="let method of methods;let i = index">
           <ion-grid class="ion-no-padding">
             <ion-row class="ion-align-items-center">
-              <ion-col size="4"> <ion-title>{{i + 1}}.</ion-title></ion-col>
+              <ion-col size="4"> <ion-title mode="md">{{i + 1}}.</ion-title></ion-col>
               <ion-col size="8" class="ion-text-right">
                 <ion-button size="small" (click)="decreaseIndex(i)" fill="clear">
                   <ion-icon
@@ -239,7 +239,7 @@
         <ion-grid class="ion-no-padding">
           <ion-row class="ion-align-items-center">
             <ion-col size="10">
-              <ion-title style="padding-left: 0px;">
+              <ion-title mode="md" style="padding-left: 0px;">
                 New Step
               </ion-title>
             </ion-col>

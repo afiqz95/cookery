@@ -8,22 +8,21 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: "tab1",
+        path: "home",
         children: [
           {
             path: "",
-            loadChildren: () =>
-              import("../tab1/tab1.module").then(m => m.Tab1PageModule)
+            loadChildren: () => import("../home/home.module").then(m => m.HomePageModule)
           }
         ]
       },
       {
-        path: "tab2",
+        path: "myrecipes",
         children: [
           {
             path: "",
             loadChildren: () =>
-              import("../tab2/tab2.module").then(m => m.Tab2PageModule)
+              import("../my-recipes/my-recipes.module").then(m => m.MyRecipesPageModule)
           }
         ]
       },
@@ -32,8 +31,7 @@ const routes: Routes = [
         children: [
           {
             path: "",
-            loadChildren: () =>
-              import("../tab3/tab3.module").then(m => m.Tab3PageModule)
+            loadChildren: () => import("../tab3/tab3.module").then(m => m.Tab3PageModule)
           }
         ]
       },
@@ -42,23 +40,20 @@ const routes: Routes = [
         children: [
           {
             path: "",
-            loadChildren: () =>
-              import("../fav-list/fav-list.module").then(
-                m => m.FavListPageModule
-              )
+            loadChildren: () => import("../fav-list/fav-list.module").then(m => m.FavListPageModule)
           }
         ]
       },
       {
         path: "",
-        redirectTo: "/tabs/tab1",
+        redirectTo: "/tabs/home",
         pathMatch: "full"
       }
     ]
   },
   {
     path: "",
-    redirectTo: "/tabs/tab1",
+    redirectTo: "/tabs/home",
     pathMatch: "full"
   }
 ];

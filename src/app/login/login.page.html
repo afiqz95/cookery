@@ -1,28 +1,77 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content fullscreen>
+  <ion-title>asd</ion-title>
   <div class="register-container">
     <ion-card mode="ios" class="register-card">
       <ion-card-header>
-        <ion-card-subtitle class="card-title">Registration</ion-card-subtitle>
+        <ion-card-subtitle class="card-title">
+          Registration
+        </ion-card-subtitle>
       </ion-card-header>
-      <ion-card-content
-        class="ion-no-padding ion-padding-bottom ion-padding-start ion-padding-end"
-      >
+      <ion-card-content class="ion-no-padding ion-padding-bottom ion-padding-start ion-padding-end">
         <ion-list>
-          <ion-item lines="none" class="text-box">
-            <ion-input placeholder="Email"></ion-input>
-          </ion-item>
-          <ion-item style="margin-top: 10px;" lines="none" class="text-box">
-            <ion-input placeholder="Password"></ion-input>
-          </ion-item>
+          <form [formGroup]="formRegister">
+            <ion-item lines="none" class="text-box">
+              <ion-input placeholder="Email" formControlName="email"></ion-input>
+            </ion-item>
+            <p
+              *ngIf="formRegister.controls['email'].touched && formRegister.controls['email'].errors?.email"
+              class="error-text"
+            >
+              Email is not valid
+            </p>
+            <p
+              *ngIf="formRegister.controls['email'].touched && formRegister.controls['email'].errors?.required"
+              class="error-text"
+            >
+              Email is required
+            </p>
+            <ion-item style="margin-top: 10px;" lines="none" class="text-box">
+              <ion-input
+                placeholder="Password"
+                [type]="isShowRegisterPassword ? 'text' : 'password'"
+                formControlName="password"
+              ></ion-input>
+              <ion-button
+                (click)="showRegisterPassword()"
+                fill="clear"
+                color="dark"
+                shape="round"
+                slot="end"
+              >
+                <ion-icon
+                  slot="icon-only"
+                  name="eye-outline"
+                  *ngIf="!isShowRegisterPassword"
+                ></ion-icon>
+                <ion-icon
+                  slot="icon-only"
+                  name="eye-off-outline"
+                  *ngIf="isShowRegisterPassword"
+                ></ion-icon>
+              </ion-button>
+            </ion-item>
+            <p
+              *ngIf="formRegister.controls['password'].touched && formRegister.controls['password'].errors?.pattern"
+              class="error-text"
+            >
+              Password must have 1 uppercase and lowercase character, and at least 1 number
+            </p>
+            <p
+              *ngIf="formRegister.controls['password'].touched && formRegister.controls['password'].errors?.minLength"
+              class="error-text"
+            >
+              Password must be more than 6 characters
+            </p>
+            <p
+              *ngIf="formRegister.controls['password'].touched && formRegister.controls['password'].errors?.required"
+              class="error-text"
+            >
+              Password is required
+            </p>
+          </form>
         </ion-list>
         <ion-button
-          (click)="onClick()"
+          (click)="register()"
           size="small"
           fill="solid"
           color="tertiary"
@@ -30,29 +79,62 @@
           shape="round"
           style="margin-top:15px;font-family: 'Lato Regular';font-size: 16px;"
         >
-          Start Cooking!
+          Register
         </ion-button>
       </ion-card-content>
     </ion-card>
+    <ion-button
+      id="cancel-register-button"
+      style="margin-top: 125px;display: none;opacity: 0;"
+      (click)="animateToRegister(true)"
+      expand="block"
+      fill="clear"
+      color="secondary"
+      shape="round"
+    >
+      Back To Login
+    </ion-button>
   </div>
   <div class="login-container">
     <ion-card mode="ios" id="login-card" class="login-card">
       <ion-card-header>
         <ion-card-subtitle class="card-title">Login</ion-card-subtitle>
       </ion-card-header>
-      <ion-card-content
-        class="ion-no-padding ion-padding-bottom ion-padding-start ion-padding-end"
-      >
+      <ion-card-content class="ion-no-padding ion-padding-bottom ion-padding-start ion-padding-end">
         <ion-list>
-          <ion-item lines="none" class="text-box">
-            <ion-input placeholder="Email"></ion-input>
-          </ion-item>
-          <ion-item style="margin-top: 10px;" lines="none" class="text-box">
-            <ion-input placeholder="Password"></ion-input>
-          </ion-item>
+          <form [formGroup]="formLogin">
+            <ion-item lines="none" class="text-box">
+              <ion-input formControlName="email" placeholder="Email"></ion-input>
+            </ion-item>
+            <ion-item style="margin-top: 10px;" lines="none" class="text-box">
+              <ion-input
+                [type]="isShowLoginPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Password"
+              ></ion-input>
+              <ion-button
+                (click)="showLoginPassword()"
+                fill="clear"
+                color="dark"
+                shape="round"
+                slot="end"
+              >
+                <ion-icon
+                  slot="icon-only"
+                  name="eye-outline"
+                  *ngIf="!isShowLoginPassword"
+                ></ion-icon>
+                <ion-icon
+                  slot="icon-only"
+                  name="eye-off-outline"
+                  *ngIf="isShowLoginPassword"
+                ></ion-icon>
+              </ion-button>
+            </ion-item>
+          </form>
         </ion-list>
         <ion-button
-          (click)="onClick()"
+          (click)="login()"
           size="small"
           fill="solid"
           color="tertiary"
@@ -64,10 +146,29 @@
         </ion-button>
       </ion-card-content>
     </ion-card>
+
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="6" class="ion-text-left">
+          <ion-card button mode="ios" class="card-facebook" id="card-facebook">
+            <ion-card-content class="ion-text-right card-social">
+              <ion-icon name="logo-facebook" size="large"></ion-icon>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6" class="ion-text-right">
+          <ion-card button mode="ios" class="card-google" id="card-google">
+            <ion-card-content class="ion-text-left card-social">
+              <ion-icon name="logo-google" size="large"></ion-icon>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <ion-button
       id="register-button"
-      style="margin-top: 25px;"
-      (click)="onClick()"
+      style="margin-top: 0px;"
+      (click)="animateToRegister(false)"
       expand="block"
       fill="clear"
       color="secondary"
@@ -76,13 +177,4 @@
       Create your account
     </ion-button>
   </div>
-
-  <ion-button
-    (click)="onClickReverse()"
-    expand="block"
-    fill="clear"
-    shape="round"
-  >
-    Click me
-  </ion-button>
 </ion-content>

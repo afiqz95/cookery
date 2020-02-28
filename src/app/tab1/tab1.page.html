@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
   <ion-refresher
     slot="fixed"
     (ionRefresh)="doRefresh($event)"
@@ -28,6 +28,84 @@
   >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-title mode="md" class="content-title" style="margin-top:10px">Explore Recipes</ion-title>
+  <ion-slides mode="ios" pager="ios">
+    <ion-slide style="padding-bottom:15px;" *ngFor="let featured of featureds">
+      <app-featured-card
+        style="width: 100%;"
+        [featured]="featured"
+        [withDetail]="true"
+        [height]="200"
+      ></app-featured-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-title mode="md" class="content-title">
+    Soups
+    <span class="ion-float-right view-all">View All > </span>
+  </ion-title>
+  <ion-slides mode="ios" scrollbar="ios" [options]="slideOpts">
+    <ion-slide *ngFor="let featured of featureds">
+      <app-recipe-card
+        style="width: 70%;"
+        [featured]="featured"
+        [withDetail]="false"
+        [height]="140"
+        [width]="'80%'"
+      ></app-recipe-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-title mode="md" class="content-title" style="margin-top:10px">Explore Recipes</ion-title>
+  <ion-slides mode="ios" pager="ios">
+    <ion-slide style="padding-bottom:15px;" *ngFor="let featured of featureds">
+      <app-featured-card
+        style="width: 100%;"
+        [featured]="featured"
+        [withDetail]="true"
+        [height]="200"
+      ></app-featured-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-title mode="md" class="content-title">
+    Soups
+    <span class="ion-float-right view-all">View All > </span>
+  </ion-title>
+  <ion-slides mode="ios" scrollbar="ios" [options]="slideOpts">
+    <ion-slide *ngFor="let featured of featureds">
+      <app-recipe-card
+        style="width: 70%;"
+        [featured]="featured"
+        [withDetail]="false"
+        [height]="140"
+        [width]="'80%'"
+      ></app-recipe-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-title mode="md" class="content-title" style="margin-top:10px">Explore Recipes</ion-title>
+  <ion-slides mode="ios" pager="ios">
+    <ion-slide style="padding-bottom:15px;" *ngFor="let featured of featureds">
+      <app-featured-card
+        style="width: 100%;"
+        [featured]="featured"
+        [withDetail]="true"
+        [height]="200"
+      ></app-featured-card>
+    </ion-slide>
+  </ion-slides>
+  <ion-title mode="md" class="content-title">
+    Soups
+    <span class="ion-float-right view-all">View All > </span>
+  </ion-title>
+  <ion-slides mode="ios" scrollbar="ios" [options]="slideOpts">
+    <ion-slide *ngFor="let featured of featureds">
+      <app-recipe-card
+        style="width: 70%;"
+        [featured]="featured"
+        [withDetail]="false"
+        [height]="140"
+        [width]="'80%'"
+      ></app-recipe-card>
+    </ion-slide>
+  </ion-slides>
   <ion-title mode="md" class="content-title" style="margin-top:10px">Explore Recipes</ion-title>
   <ion-slides mode="ios" pager="ios">
     <ion-slide style="padding-bottom:15px;" *ngFor="let featured of featureds">

@@ -3,6 +3,7 @@ import { createAnimation, AnimationDirection } from "@ionic/core";
 import { Platform, NavController, AlertController, ToastController } from "@ionic/angular";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthorizationService } from "../api/authorization.service";
+import { StatusBar } from "@ionic-native/status-bar/ngx";
 @Component({
   selector: "app-login",
   templateUrl: "./login.page.html",
@@ -31,10 +32,14 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     private authApi: AuthorizationService,
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private statusbar: StatusBar
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.statusbar.backgroundColorByName("black");
+    this.statusbar.styleBlackTranslucent();
+  }
 
   animateToRegister(reverse = false) {
     var direction: AnimationDirection = reverse ? "reverse" : "normal";
@@ -55,7 +60,7 @@ export class LoginPage implements OnInit {
     const registerContainer = createAnimation()
       .addElement(document.querySelector(".register-container"))
       .duration(300)
-      .fromTo("top", "25vh", "24.5vh");
+      .fromTo("top", "35vh", "34.5vh");
 
     const registerAnimation = createAnimation()
       .addElement(document.querySelector(".register-card"))
@@ -80,7 +85,7 @@ export class LoginPage implements OnInit {
     const cardGoogle = createAnimation()
       .addElement(document.querySelector(".card-google"))
       .duration(300)
-      .fromTo("right", "0px", "-70px");
+      .fromTo("right", "0px", "-110px");
 
     if (!reverse) {
       registerButton.afterStyles({

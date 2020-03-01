@@ -11,17 +11,31 @@ import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
 import { BaseApiService } from "./api/base-api.service";
 import { AuthorizationService } from "./api/authorization.service";
-
+import { IonicStorageModule } from "@ionic/storage";
+import { StorageService } from "./services/storage.service";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot({}), AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot({}),
+    AppRoutingModule,
+    IonicStorageModule.forRoot({
+      name: "__cookery",
+      version: 0.1
+    }),
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+  ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     BaseApiService,
-    AuthorizationService
+    AuthorizationService,
+    StorageService,
   ],
   bootstrap: [AppComponent]
 })

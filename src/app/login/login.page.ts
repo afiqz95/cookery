@@ -4,6 +4,7 @@ import { Platform, NavController, AlertController, ToastController } from "@ioni
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthorizationService } from "../api/authorization.service";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
+import { StorageService } from "../services/storage.service";
 @Component({
   selector: "app-login",
   templateUrl: "./login.page.html",
@@ -33,7 +34,8 @@ export class LoginPage implements OnInit {
     private authApi: AuthorizationService,
     private alertController: AlertController,
     private toastController: ToastController,
-    private statusbar: StatusBar
+    private statusbar: StatusBar,
+    private storage: StorageService
   ) {}
 
   ngOnInit() {
@@ -132,6 +134,8 @@ export class LoginPage implements OnInit {
       password: this.formLogin.value.password
     });
     if (login.canLogin) {
+      await this.storage.setToken(login.token);
+      await this.storage.setUserId(login.userId);
       this.navCtrl.navigateRoot("/");
     } else {
       const toast = await this.toastController.create({

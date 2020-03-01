@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { IonContent } from "@ionic/angular";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { RecipeIngredient } from "../interface/recipe-ingredient";
+import { RecipeStep } from "../interface/recipe-step";
+import { RecipeService } from "../api/recipe.service";
 
 @Component({
   selector: "app-new-recipe-form",
@@ -8,37 +12,14 @@ import { IonContent } from "@ionic/angular";
 })
 export class NewRecipeFormPage implements OnInit {
   @ViewChild("content", { static: false }) ionContent: IonContent;
-  ingredients = [
-    {
-      name: "Chicken",
-      quantity: "500g"
-    }
-  ];
+
+  segment = "details";
   adding = false;
   addingMethod = false;
-  newIngredient = {
-    name: "",
-    quantity: ""
-  };
-  selectedCategory = null;
-  segment = "details";
-  methods = [
-    {
-      description: "Preheat oven to 375 degrees F (190 degrees C).",
-      isEditing: false
-    },
-    {
-      description:
-        "In a large bowl, cream together the margarine, vegetable oil, 1 cup white sugar and confectioners' sugar until smooth. Beat in the eggs one at a time, then stir in the vanilla. Combine the flour, baking soda, cream of tartar and salt; stir into the creamed mixture. Mix in the pecans. Roll dough into 1 inch balls and roll each ball in remaining white sugar. Place the cookies 2 inches apart onto ungreased cookie sheets.",
-      isEditing: false
-    },
-    {
-      description:
-        "Bake for 10 to 12 minutes in the preheated oven, or until the edges are golden. Remove from cookie sheets to cool on wire racks.",
-      isEditing: false
-    }
-  ];
-  newStep: string;
+
+  ingredients: Array<RecipeIngredient> = [];
+  methods: Array<any> = [];
+
   categories = [
     {
       name: "Soups"
@@ -83,7 +64,26 @@ export class NewRecipeFormPage implements OnInit {
       name: "Desserts"
     }
   ];
-  constructor() {
+
+  detailForm: FormGroup = new FormGroup({
+    name: new FormControl("", [Validators.required]),
+    categoryId: new FormControl("", [Validators.required]),
+    difficulty: new FormControl("", [Validators.required]),
+    description: new FormControl("", [Validators.required]),
+    time: new FormControl("", [Validators.required]),
+    timeUnit: new FormControl("", [Validators.required])
+  });
+
+  newIngredientForm: FormGroup = new FormGroup({
+    name: new FormControl("", [Validators.required]),
+    quantity: new FormControl("", [Validators.required])
+  });
+
+  newStepForm: FormGroup = new FormGroup({
+    description: new FormControl("", [Validators.required])
+  });
+
+  constructor(private recipeService: RecipeService) {
     this.categories.sort((a, b) => {
       if (a.name < b.name) return -1;
       if (a.name > b.name) return 1;
@@ -99,21 +99,24 @@ export class NewRecipeFormPage implements OnInit {
 
   openNewIngredient() {
     this.adding = true;
-    this.newIngredient = {
-      name: "",
-      quantity: ""
-    };
+
     setTimeout(() => {
       this.ionContent.scrollToBottom(500);
     }, 200);
   }
 
   addIngredient() {
+    this.validateAllControl(this.newIngredientForm);
+    if (!this.newIngredientForm.valid) return;
     this.ingredients.push({
-      name: this.newIngredient.name,
-      quantity: this.newIngredient.quantity
+      name: this.newIngredientForm.value.name,
+      quantity: this.newIngredientForm.value.quantity
     });
     this.adding = false;
+    this.newIngredientForm.reset({
+      name: "",
+      quantity: ""
+    });
   }
 
   increaseIndex(i) {
@@ -130,16 +133,20 @@ export class NewRecipeFormPage implements OnInit {
 
   addingStep() {
     this.addingMethod = true;
-    this.newStep = "";
     setTimeout(() => {
       this.ionContent.scrollToBottom(500);
     }, 200);
   }
 
   addStep() {
+    this.validateAllControl(this.newStepForm);
+    if (!this.newStepForm.valid) return;
     this.methods.push({
-      description: this.newStep,
+      description: this.newStepForm.value.description,
       isEditing: false
+    });
+    this.newStepForm.reset({
+      description: ""
     });
     this.addingMethod = false;
   }
@@ -150,5 +157,31 @@ export class NewRecipeFormPage implements OnInit {
 
   removeMethod(i) {
     this.methods.splice(i, 1);
+  }
+
+  private validateAllControl(form: FormGroup) {
+    for (const control in form.controls) {
+      if (form.controls.hasOwnProperty(control)) {
+        const element = form.controls[control];
+        element.markAsTouched();
+      }
+    }
+  }
+
+  async submit() {
+    this.validateAllControl(this.detailForm);
+    if (!this.detailForm.valid) {
+      return;
+    }
+
+    const recipePosted = await this.recipeService.insertRecipeDetail({
+      name: this.detailForm.value.name,
+      categoryId: this.detailForm.value.categoryId,
+      difficulty: this.detailForm.value.difficulty,
+      description: this.detailForm.value.description,
+      time: this.detailForm.value.time,
+      timeUnit: this.detailForm.value.timeUnit
+    });
+    console.log(recipePosted);
   }
 }

@@ -45,57 +45,84 @@
     </ion-segment-button>
   </ion-segment>
   <ng-container *ngIf="segment ==='details'; else notDetailsTemp">
-    <ion-list>
-      <ion-item>
-        <ion-label position="stacked">Recipe Name</ion-label>
-        <ion-input placeholder="Eg : Chicken Hainanese Rice"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Category</ion-label>
-        <ion-select [(ngModel)]="selectedCategory" placeholder="Choose category for your recipe">
-          <ion-select-option *ngFor="let category of categories"
-            >{{category.name}}</ion-select-option
-          >
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Difficulty</ion-label>
-        <ion-select placeholder="How difficult is it to make this">
-          <ion-select-option value="easy">Easy</ion-select-option>
-          <ion-select-option value="medium">Medium</ion-select-option>
-          <ion-select-option value="hard">Hard</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Description</ion-label>
-        <ion-textarea
-          rows="6"
-          placeholder="Explain your recipe as tastiest as possible!"
-        ></ion-textarea>
-      </ion-item>
-    </ion-list>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12">
-          <ion-title mode="md" style="padding-left: 5px;">Cooking Time</ion-title>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item>
-            <ion-label position="stacked">Time</ion-label>
-            <ion-input placeholder="Enter amount"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item>
-            <ion-label position="stacked">Unit</ion-label>
-            <ion-select value="minutes" placeholder="Select unit">
-              <ion-select-option value="minutes">Minutes</ion-select-option>
-              <ion-select-option value="hours">Hours</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <form [formGroup]="detailForm">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Recipe Name</ion-label>
+          <ion-input formControlName="name" placeholder="Eg : Chicken Hainanese Rice"></ion-input>
+        </ion-item>
+        <app-error-text
+          [text]="'Recipe Name is required'"
+          *ngIf="detailForm.controls['name'].errors?.required && detailForm.controls['name'].touched"
+        ></app-error-text>
+        <ion-item>
+          <ion-label position="stacked">Category</ion-label>
+          <ion-select formControlName="categoryId" placeholder="Choose category for your recipe">
+            <ion-select-option [value]="category.name" *ngFor="let category of categories">
+              {{category.name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <app-error-text
+          [text]="'Category is required'"
+          *ngIf="detailForm.controls['categoryId'].errors?.required && detailForm.controls['categoryId'].touched"
+        ></app-error-text>
+        <ion-item>
+          <ion-label position="stacked">Difficulty</ion-label>
+          <ion-select formControlName="difficulty" placeholder="How difficult is it to make this">
+            <ion-select-option value="easy">Easy</ion-select-option>
+            <ion-select-option value="medium">Medium</ion-select-option>
+            <ion-select-option value="hard">Hard</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <app-error-text
+          [text]="'Difficulty is required'"
+          *ngIf="detailForm.controls['difficulty'].errors?.required && detailForm.controls['difficulty'].touched"
+        ></app-error-text>
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-textarea
+            rows="6"
+            formControlName="description"
+            placeholder="Explain your recipe as tastiest as possible!"
+          ></ion-textarea>
+        </ion-item>
+        <app-error-text
+          [text]="'Description is required'"
+          *ngIf="detailForm.controls['description'].errors?.required && detailForm.controls['description'].touched"
+        ></app-error-text>
+      </ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <ion-title mode="md" style="padding-left: 5px;">Cooking Time</ion-title>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">Time</ion-label>
+              <ion-input type="number" formControlName="time" placeholder="Enter amount"></ion-input>
+            </ion-item>
+            <app-error-text
+              [text]="'Cooking Time is required'"
+              *ngIf="detailForm.controls['time'].errors?.required && detailForm.controls['time'].touched"
+            ></app-error-text>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">Unit</ion-label>
+              <ion-select formControlName="timeUnit" placeholder="Select unit">
+                <ion-select-option value="minutes">Minutes</ion-select-option>
+                <ion-select-option value="hours">Hours</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <app-error-text
+              [text]="'Unit of Time is required'"
+              *ngIf="detailForm.controls['timeUnit'].errors?.required && detailForm.controls['timeUnit'].touched"
+            ></app-error-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
   </ng-container>
   <ng-template #notDetailsTemp>
     <ng-container *ngIf="segment === 'ingredient'; else methodsTemp">
@@ -150,14 +177,24 @@
         </ion-grid>
 
         <ion-list>
-          <ion-item>
-            <ion-label position="stacked">Name</ion-label>
-            <ion-input placeholder="Eg : Chicken" [(ngModel)]="newIngredient.name"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="stacked">Quantity</ion-label>
-            <ion-input placeholder="Eg : 500g" [(ngModel)]="newIngredient.quantity"></ion-input>
-          </ion-item>
+          <form [formGroup]="newIngredientForm">
+            <ion-item>
+              <ion-label position="stacked">Name</ion-label>
+              <ion-input placeholder="Eg : Chicken" formControlName="name"></ion-input>
+            </ion-item>
+            <app-error-text
+              [text]="'Name is required'"
+              *ngIf="newIngredientForm.controls['name'].errors?.required && newIngredientForm.controls['name'].touched"
+            ></app-error-text>
+            <ion-item>
+              <ion-label position="stacked">Quantity</ion-label>
+              <ion-input placeholder="Eg : 500g" formControlName="quantity"></ion-input>
+            </ion-item>
+            <app-error-text
+              [text]="'Quantity is required'"
+              *ngIf="newIngredientForm.controls['quantity'].errors?.required && newIngredientForm.controls['quantity'].touched"
+            ></app-error-text>
+          </form>
         </ion-list>
         <ion-button
           expand="block"
@@ -252,14 +289,20 @@
         </ion-grid>
 
         <ion-list>
-          <ion-item>
-            <ion-label position="stacked">Step Description</ion-label>
-            <ion-textarea
-              rows="7"
-              placeholder="Eg : Put chicken in Over for 30 minutes"
-              [(ngModel)]="newStep"
-            ></ion-textarea>
-          </ion-item>
+          <form [formGroup]="newStepForm">
+            <ion-item>
+              <ion-label position="stacked">Step Description</ion-label>
+              <ion-textarea
+                rows="7"
+                placeholder="Eg : Put chicken in Over for 30 minutes"
+                formControlName="description"
+              ></ion-textarea>
+            </ion-item>
+            <app-error-text
+              [text]="'Step Description is required'"
+              *ngIf="newStepForm.controls['description'].errors?.required && newStepForm.controls['description'].touched"
+            ></app-error-text>
+          </form>
         </ion-list>
         <ion-button
           expand="block"
@@ -278,7 +321,7 @@
 
 <ion-footer>
   <ion-toolbar color="secondary">
-    <ion-button (click)="onClick()" expand="block" fill="clear" shape="round" color="light">
+    <ion-button (click)="submit()" expand="block" fill="clear" shape="round" color="light">
       Add Recipe!
     </ion-button>
   </ion-toolbar>
